@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2: CSS - Diapositivas Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            overflow: hidden;
+        }
+
+        .diapositiva {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            padding: 60px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #eee;
+            overflow-y: auto;
+            animation: fadeIn 0.5s;
+        }
+
+        .diapositiva.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: #f97316;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: #2563eb;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            margin-top: 20px;
+            margin-bottom: 15px;
+            color: #facc15;
+        }
+
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #cbd5e1;
+        }
+
+        ul, ol {
+            margin-left: 40px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        code {
+            background: rgba(255,255,255,0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #f97316;
+        }
+
+        .codigo {
+            background: rgba(0,0,0,0.6);
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #f97316;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #2563eb;
+        }
+
+        .resultado {
+            background: rgba(79, 209, 197, 0.1);
+            border-left: 4px solid #14b8a6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .comparacion {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparacion > div {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .comparacion h4 {
+            color: #facc15;
+            margin-bottom: 10px;
+        }
+
+        .navegacion {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37,99,235,0.3);
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .contador {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            border: 1px solid #2563eb;
+        }
+
+        .idea-fundacional {
+            background: rgba(249, 115, 22, 0.1);
+            border: 2px solid #f97316;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .idea-fundacional p {
+            font-size: 1.4rem;
+            font-style: italic;
+            color: #f97316;
+            margin: 0;
+        }
+
+        .referencia {
+            color: #facc15;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .titulo-version {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .explicacion {
+            background: rgba(37, 99, 235, 0.1);
+            border-left: 4px solid #2563eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .pregunta {
+            background: rgba(250, 204, 21, 0.1);
+            border-left: 4px solid #facc15;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+        }
+
+        .pregunta strong {
+            color: #facc15;
+        }
+
+        .respuesta {
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            margin-top: 8px;
+        }
+
+        .reto {
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(249, 115, 22, 0.2));
+            border: 2px solid #f97316;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .reto h3 {
+            color: #f97316;
+            margin-top: 0;
+        }
+
+        .emoji {
+            margin-right: 10px;
+        }
+
+        .contenido-retos {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- DIAPOSITIVA 1: PORTADA -->
+<div class="diapositiva active">
+    <div>
+        <h1>🎨 Clase 2: CSS</h1>
+        <h2 style="color: #14b8a6; margin-bottom: 40px;">De HTML a una página hermosa</h2>
+        
+        <div class="idea-fundacional">
+            <p>"La belleza sin estructura es caos. La estructura sin belleza es fría. CSS une ambas."</p>
+            <div class="referencia">Proverbios 25:11</div>
+        </div>
+
+        <p style="margin-top: 40px; font-size: 1.4rem;">
+            <strong>Objetivo:</strong> Entender CÓMO y POR QUÉ cada línea de CSS cambia la página
+        </p>
+        <p style="font-size: 1.2rem; color: #facc15;">⏱️ 60 minutos | 👥 Todos | 🎨 CSS paso a paso</p>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 2: ANTES vs DESPUÉS -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔄</span>ANTES vs DESPUÉS</h2>
+    
+    <div class="comparacion">
+        <div>
+            <h4>❌ ANTES (solo HTML)</h4>
+            <p style="font-size: 1rem;">
+                • Texto sin formato<br>
+                • Colores del navegador<br>
+                • Sin espaciado<br>
+                • Se ve desordenado<br>
+                • No es atractivo
+            </p>
+        </div>
+        <div>
+            <h4>✅ DESPUÉS (HTML + CSS)</h4>
+            <p style="font-size: 1rem;">
+                • Colores profesionales<br>
+                • Espaciado perfecto<br>
+                • Disposición clara<br>
+                • Cajas con sombra<br>
+                • ¡Se ve real!
+            </p>
+        </div>
+    </div>
+
+    <p style="margin-top: 30px; text-align: center; font-size: 1.3rem;">
+        <strong style="color: #f97316;">MISMO HTML</strong> 
+        <br>
+        <strong style="color: #facc15;">DIFERENTE CSS</strong> 
+        <br>
+        <strong style="color: #14b8a6;">= ASPECTO COMPLETAMENTE DIFERENTE</strong>
+    </p>
+</div>
+
+<!-- DIAPOSITIVA 3: MÉTODO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🛠️</span>Método de Construcción</h2>
+    
+    <p style="margin-bottom: 30px; color: #facc15; font-weight: bold;">Construiremos CSS en 6 versiones paso a paso:</p>
+
+    <ul style="font-size: 1.2rem;">
+        <li><strong style="color: #f97316;">VERSIÓN 1:</strong> Reseteo y Fuente → Texto limpio</li>
+        <li><strong style="color: #f97316;">VERSIÓN 2:</strong> Colores Base → Encabezado azul, footer negro</li>
+        <li><strong style="color: #f97316;">VERSIÓN 3:</strong> Espaciado → Padding y margin</li>
+        <li><strong style="color: #f97316;">VERSIÓN 4:</strong> Layout (Grid) → Columnas y disposición</li>
+        <li><strong style="color: #f97316;">VERSIÓN 5:</strong> Tarjetas y Cajas → Estilo visual</li>
+        <li><strong style="color: #f97316;">VERSIÓN 6:</strong> Botones y Responsivo → Interactividad</li>
+    </ul>
+
+    <div class="explicacion" style="margin-top: 30px;">
+        <strong style="color: #facc15;">En cada paso:</strong><br>
+        1. Mostrar código 2. Copiar exacto 3. Guardar y recargar 4. Ver cambio 5. Explicar qué hace
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 4: VERSIÓN 1 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔴</span>VERSIÓN 1: Reseteo y Fuente</h2>
+    <div class="titulo-version">PASO 1: Crea style.css y enlázalo en HTML</div>
+
+    <p>En el &lt;head&gt; de tu HTML, agrega:</p>
+    <div class="codigo">&lt;link rel="stylesheet" href="style.css"&gt;</div>
+
+    <p style="margin-top: 30px;">Ahora copia esto en style.css:</p>
+    <div class="codigo">
+/* VERSIÓN 1: RESETEO Y FUENTE */<br>
+<br>
+* {<br>
+&nbsp;&nbsp;box-sizing: border-box;<br>
+}<br>
+<br>
+body {<br>
+&nbsp;&nbsp;margin: 0;<br>
+&nbsp;&nbsp;font-family: Arial, Helvetica, sans-serif;<br>
+&nbsp;&nbsp;color: #1f2937;<br>
+&nbsp;&nbsp;line-height: 1.6;<br>
+}<br>
+<br>
+img {<br>
+&nbsp;&nbsp;max-width: 100%;<br>
+&nbsp;&nbsp;display: block;<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 5: VERSIÓN 1 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔴</span>VERSIÓN 1: Resultado</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué pasó:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>El texto se ve más pequeño y limpio</li>
+            <li>No hay espacios raros arriba (margin: 0)</li>
+            <li>Las imágenes no son enormes</li>
+            <li>Toda la página usa Arial</li>
+            <li>El espaciado entre líneas es mejor (line-height: 1.6)</li>
+        </ul>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">Recuerda:</strong> Aún se ve fea, pero hemos removido 
+        los estilos "feos" del navegador. Ahora tenemos control total.
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 6: VERSIÓN 1 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔴</span>VERSIÓN 1: ¿Qué significa cada línea?</h2>
+    
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "* { box-sizing: border-box; }"?</strong>
+        <div class="respuesta">
+            El asterisco (*) significa "TODO en la página". 
+            <code>box-sizing: border-box</code> hace que los bordes no "rompan" el tamaño de las cosas.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "margin: 0"?</strong>
+        <div class="respuesta">
+            Margin es el espacio AFUERA de un elemento. El navegador agrega margin por defecto. 
+            Nosotros lo quitamos para tener control total.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "font-family"?</strong>
+        <div class="respuesta">
+            La TIPOGRAFÍA (tipo de letra). Arial es simple y clara para empezar.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "line-height: 1.6"?</strong>
+        <div class="respuesta">
+            El espacio entre líneas de texto. 1.6 significa 60% más espacio. Hace el texto más legible.
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 7: VERSIÓN 2 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟠</span>VERSIÓN 2: Colores Base</h2>
+    <div class="titulo-version">PASO 2: Agrégalo al final de style.css</div>
+
+    <p>Copia y pega esto (no reemplaces lo anterior):</p>
+    <div class="codigo">
+/* VERSIÓN 2: COLORES BASE */<br>
+<br>
+header {<br>
+&nbsp;&nbsp;background-color: #0f172a;<br>
+&nbsp;&nbsp;color: white;<br>
+}<br>
+<br>
+nav {<br>
+&nbsp;&nbsp;background-color: white;<br>
+&nbsp;&nbsp;border-bottom: 1px solid #e5e7eb;<br>
+}<br>
+<br>
+a {<br>
+&nbsp;&nbsp;color: #1d4ed8;<br>
+}<br>
+<br>
+footer {<br>
+&nbsp;&nbsp;background-color: #020617;<br>
+&nbsp;&nbsp;color: #cbd5e1;<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 8: VERSIÓN 2 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟠</span>VERSIÓN 2: Resultado</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué cambió:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>El HEADER es azul oscuro con texto blanco</li>
+            <li>El MENÚ es blanco con una línea gris abajo</li>
+            <li>Los ENLACES son azules</li>
+            <li>El FOOTER es negro con texto gris claro</li>
+            <li>La página empieza a parecer un sitio real</li>
+        </ul>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">¡Mira la diferencia!</strong> Solo agregamos colores 
+        y ya se ve mucho mejor. CSS está haciendo magia.
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 9: VERSIÓN 2 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟠</span>VERSIÓN 2: Entendiendo Selectores</h2>
+    
+    <div class="explicacion">
+        <strong style="color: #facc15;">Los selectores son cómo le dices a CSS QUÉ elemento estilizar:</strong>
+        <div style="margin-top: 15px;">
+            <p><code>header { ... }</code> → Aplica estilos a la etiqueta &lt;header&gt;</p>
+            <p><code>nav { ... }</code> → Aplica estilos a la etiqueta &lt;nav&gt;</p>
+            <p><code>a { ... }</code> → Aplica estilos a TODOS los &lt;a&gt; (enlaces)</p>
+            <p><code>footer { ... }</code> → Aplica estilos a la etiqueta &lt;footer&gt;</p>
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Mayúsculas o minúsculas?</strong>
+        <div class="respuesta">
+            SIEMPRE minúsculas en CSS. <code>header</code> funciona, <code>Header</code> NO funciona.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "border-bottom"?</strong>
+        <div class="respuesta">
+            Una línea en la parte INFERIOR. <code>1px</code> = grosor, 
+            <code>solid</code> = tipo, <code>#e5e7eb</code> = color gris.
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 10: VERSIÓN 3 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟡</span>VERSIÓN 3: Espaciado (Padding/Margin)</h2>
+    <div class="titulo-version">PASO 3: Agrégalo al final de style.css</div>
+
+    <p>El espaciado hace que la página "respire":</p>
+    <div class="codigo">
+/* VERSIÓN 3: ESPACIADO */<br>
+<br>
+.contenedor {<br>
+&nbsp;&nbsp;width: min(1100px, 90%);<br>
+&nbsp;&nbsp;margin: 0 auto;<br>
+}<br>
+<br>
+header {<br>
+&nbsp;&nbsp;padding: 70px 0;<br>
+}<br>
+<br>
+section {<br>
+&nbsp;&nbsp;padding: 60px 0;<br>
+}<br>
+<br>
+nav {<br>
+&nbsp;&nbsp;padding: 14px 0;<br>
+}<br>
+<br>
+footer {<br>
+&nbsp;&nbsp;padding: 25px 0;<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 11: VERSIÓN 3 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟡</span>VERSIÓN 3: Resultado</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué cambió:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>El contenido no toca los bordes de la ventana</li>
+            <li>Hay "aire" adentro de cada sección</li>
+            <li>Las secciones están separadas visualmente</li>
+            <li>La página no se ve apretada</li>
+            <li>¡Se ve más profesional!</li>
+        </ul>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">Principio de diseño:</strong> El espacio en blanco es importante. 
+        No es "desperdicio". Es lo que hace que una página sea agradable de leer.
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 12: VERSIÓN 3 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟡</span>VERSIÓN 3: Padding vs Margin</h2>
+    
+    <div class="comparacion">
+        <div>
+            <h4>PADDING (adentro)</h4>
+            <p>Espacio DENTRO del elemento<br><br>
+            <code>padding: 70px 0;</code><br>
+            70px arriba/abajo<br>
+            0px izq/der</p>
+        </div>
+        <div>
+            <h4>MARGIN (afuera)</h4>
+            <p>Espacio AFUERA del elemento<br><br>
+            <code>margin: 0 auto;</code><br>
+            0px arriba/abajo<br>
+            auto izq/der (CENTRA)</p>
+        </div>
+    </div>
+
+    <div class="pregunta" style="margin-top: 30px;">
+        <strong>❓ ¿Qué es "min(1100px, 90%)"?</strong>
+        <div class="respuesta">
+            "El menor entre 1100px y 90% de la ventana". 
+            En pantalla pequeña: 90%. En grande: máximo 1100px. Responsivo automático.
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 13: VERSIÓN 4 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟢</span>VERSIÓN 4: Layout con Grid</h2>
+    <div class="titulo-version">PASO 4: Agrégalo al final de style.css</div>
+
+    <p>Grid organiza el contenido en columnas:</p>
+    <div class="codigo">
+/* VERSIÓN 4: LAYOUT CON GRID */<br>
+<br>
+.header-content {<br>
+&nbsp;&nbsp;display: grid;<br>
+&nbsp;&nbsp;grid-template-columns: 1.2fr 0.8fr;<br>
+&nbsp;&nbsp;gap: 40px;<br>
+&nbsp;&nbsp;align-items: center;<br>
+}<br>
+<br>
+.menu-content {<br>
+&nbsp;&nbsp;display: flex;<br>
+&nbsp;&nbsp;justify-content: center;<br>
+&nbsp;&nbsp;gap: 25px;<br>
+}<br>
+<br>
+.tarjetas {<br>
+&nbsp;&nbsp;display: grid;<br>
+&nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br>
+&nbsp;&nbsp;gap: 20px;<br>
+&nbsp;&nbsp;margin-top: 30px;<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 14: VERSIÓN 4 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟢</span>VERSIÓN 4: Resultado</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué cambió:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>El HEADER ahora tiene 2 columnas (texto + imagen)</li>
+            <li>El MENÚ está HORIZONTAL y centrado</li>
+            <li>Las TARJETAS están en 3 columnas</li>
+            <li>El contenido tiene estructura visual clara</li>
+            <li>¡Es un verdadero LAYOUT de página web!</li>
+        </ul>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">CSS Grid es lo que hace que las páginas web modernas funcionen.</strong> 
+        Google, Amazon, Netflix... todos usan Grid.
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 15: VERSIÓN 4 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟢</span>VERSIÓN 4: Grid vs Flexbox</h2>
+    
+    <div class="explicacion">
+        <strong style="color: #facc15;">GRID</strong><br>
+        Organiza en TABLA (filas Y columnas)<br>
+        Perfecto para layouts complejos<br>
+        <code>grid-template-columns: repeat(3, 1fr)</code>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">FLEXBOX</strong><br>
+        Organiza en LÍNEA (flexible en una dirección)<br>
+        Perfecto para menús y botones<br>
+        <code>display: flex; justify-content: center;</code>
+    </div>
+
+    <div class="pregunta" style="margin-top: 30px;">
+        <strong>❓ ¿Qué es "gap: 40px"?</strong>
+        <div class="respuesta">
+            Espacio ENTRE elementos. Con gap, no necesitas calcular márgenes complicados.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "repeat(3, 1fr)"?</strong>
+        <div class="respuesta">
+            Repite 3 veces una columna de 1 parte. 3 columnas IGUALES.
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 16: VERSIÓN 5 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔵</span>VERSIÓN 5: Tarjetas y Cajas</h2>
+    <div class="titulo-version">PASO 5: Agrégalo al final de style.css</div>
+
+    <p>Hacemos que las tarjetas se vean como cajas 3D:</p>
+    <div class="codigo">
+/* VERSIÓN 5: TARJETAS Y CAJAS */<br>
+<br>
+.tarjeta, .caja-destacada {<br>
+&nbsp;&nbsp;background-color: white;<br>
+&nbsp;&nbsp;padding: 25px;<br>
+&nbsp;&nbsp;border-radius: 18px;<br>
+&nbsp;&nbsp;box-shadow: 0 10px 25px rgba(15,23,42,0.08);<br>
+}<br>
+<br>
+.tarjeta h3, .caja-destacada h3 {<br>
+&nbsp;&nbsp;margin-top: 0;<br>
+&nbsp;&nbsp;color: #1d4ed8;<br>
+}<br>
+<br>
+.enlaces a {<br>
+&nbsp;&nbsp;background-color: white;<br>
+&nbsp;&nbsp;color: #1d4ed8;<br>
+&nbsp;&nbsp;padding: 12px 16px;<br>
+&nbsp;&nbsp;border-radius: 12px;<br>
+&nbsp;&nbsp;text-decoration: none;<br>
+&nbsp;&nbsp;border: 1px solid #bfdbfe;<br>
+}<br>
+<br>
+.enlaces a:hover {<br>
+&nbsp;&nbsp;background-color: #dbeafe;<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 17: VERSIÓN 5 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔵</span>VERSIÓN 5: Resultado</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué cambió:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>Las tarjetas tienen SOMBRA (parecen flotar)</li>
+            <li>Las esquinas están redondeadas</li>
+            <li>El fondo es blanco y tienen padding</li>
+            <li>Los títulos son azules</li>
+            <li>Los enlaces parecen botones</li>
+            <li>¡La página parece PROFESIONAL!</li>
+        </ul>
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">La sombra es la clave.</strong> 
+        Agrega profundidad y hace que los elementos "floten" sobre la página.
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 18: VERSIÓN 5 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🔵</span>VERSIÓN 5: Entendiendo box-shadow</h2>
+    
+    <div class="codigo" style="margin: 20px 0;">
+box-shadow: 0 10px 25px rgba(15,23,42,0.08);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑<br>
+&nbsp;&nbsp;&nbsp;&nbsp;H&nbsp;&nbsp;&nbsp;V&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Blur&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color
+    </div>
+
+    <ul style="font-size: 1.1rem;">
+        <li><strong>0:</strong> Desplazamiento horizontal (0 = centrado)</li>
+        <li><strong>10px:</strong> Desplazamiento vertical (hacia abajo)</li>
+        <li><strong>25px:</strong> "Difuminado" de la sombra (más = más suave)</li>
+        <li><strong>rgba(...):</strong> Color = negro, 0.08 = muy transparente</li>
+    </ul>
+
+    <div class="pregunta" style="margin-top: 30px;">
+        <strong>❓ ¿Qué es "border-radius: 18px"?</strong>
+        <div class="respuesta">
+            Redondea las esquinas. 18px = muy redondeado. 
+            0px = cuadrado. 50% = círculo perfecto.
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 19: VERSIÓN 6 - CÓDIGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟣</span>VERSIÓN 6: Botones y Responsive</h2>
+    <div class="titulo-version">PASO 6: Agrégalo al final de style.css (FINAL)</div>
+
+    <div class="codigo">
+/* VERSIÓN 6: BOTONES Y RESPONSIVE */<br>
+<br>
+.boton {<br>
+&nbsp;&nbsp;display: inline-block;<br>
+&nbsp;&nbsp;background-color: #f97316;<br>
+&nbsp;&nbsp;color: white;<br>
+&nbsp;&nbsp;padding: 12px 22px;<br>
+&nbsp;&nbsp;border-radius: 999px;<br>
+&nbsp;&nbsp;text-decoration: none;<br>
+&nbsp;&nbsp;font-weight: bold;<br>
+}<br>
+<br>
+.boton:hover {<br>
+&nbsp;&nbsp;background-color: #ea580c;<br>
+}<br>
+<br>
+.menu {<br>
+&nbsp;&nbsp;position: sticky;<br>
+&nbsp;&nbsp;top: 0;<br>
+&nbsp;&nbsp;z-index: 10;<br>
+}<br>
+<br>
+@media (max-width: 768px) {<br>
+&nbsp;&nbsp;.header-content, .tarjetas {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;grid-template-columns: 1fr;<br>
+&nbsp;&nbsp;}<br>
+}
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 20: VERSIÓN 6 - RESULTADO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟣</span>VERSIÓN 6: Resultado FINAL</h2>
+    
+    <div class="resultado">
+        <h3 style="color: #14b8a6; margin-top: 0;">✓ Qué cambió:</h3>
+        <ul style="font-size: 1.1rem;">
+            <li>Los botones son naranjas con esquinas muy redondeadas</li>
+            <li>Al pasar el ratón, se oscurecen (:hover)</li>
+            <li>El menú se queda arriba al bajar (sticky)</li>
+            <li>En celular: 1 columna. En escritorio: 2-3 columnas</li>
+            <li>¡LA PÁGINA ESTÁ COMPLETA Y PROFESIONAL!</li>
+        </ul>
+    </div>
+
+    <div class="idea-fundacional">
+        <p>MISMO HTML de clase 1.5</p>
+        <p>NUEVO CSS = PÁGINA HERMOSA</p>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 21: VERSIÓN 6 - EXPLICACIÓN -->
+<div class="diapositiva">
+    <h2><span class="emoji">🟣</span>VERSIÓN 6: Conceptos avanzados</h2>
+    
+    <div class="pregunta">
+        <strong>❓ ¿Qué es ":hover"?</strong>
+        <div class="respuesta">
+            Estilos que se aplican cuando pasas el ratón. Hace la página INTERACTIVA.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "position: sticky"?</strong>
+        <div class="respuesta">
+            El menú se queda en la parte superior aunque bajes la página. Muy útil para navegación.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "z-index: 10"?</strong>
+        <div class="respuesta">
+            Define qué elemento está "arriba". Número más alto = más arriba. 
+            Asegura que el menú esté sobre el contenido.
+        </div>
+    </div>
+
+    <div class="pregunta">
+        <strong>❓ ¿Qué es "@media (max-width: 768px)"?</strong>
+        <div class="respuesta">
+            Estilos SOLO para pantallas menores de 768px (celulares). En móvil: 1 columna. 
+            En escritorio: 2-3 columnas. ¡Responsivo!
+        </div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 22: PREGUNTAS -->
+<div class="diapositiva">
+    <h2><span class="emoji">❓</span>Preguntas de Verificación</h2>
+    
+    <div class="pregunta">
+        <strong>1. ¿Cuál es la diferencia entre padding y margin?</strong>
+        <div class="respuesta">Padding = espacio DENTRO. Margin = espacio AFUERA.</div>
+    </div>
+
+    <div class="pregunta">
+        <strong>2. ¿Qué hace "display: grid"?</strong>
+        <div class="respuesta">Crea un sistema de columnas. Los elementos se organizan en filas y columnas.</div>
+    </div>
+
+    <div class="pregunta">
+        <strong>3. ¿Qué hace "background-color"?</strong>
+        <div class="respuesta">Define el color de FONDO de un elemento.</div>
+    </div>
+
+    <div class="pregunta">
+        <strong>4. ¿Qué hace ":hover"?</strong>
+        <div class="respuesta">Aplica estilos cuando pasas el ratón sobre el elemento.</div>
+    </div>
+
+    <div class="pregunta">
+        <strong>5. ¿Qué es un SELECTOR en CSS?</strong>
+        <div class="respuesta">Lo que va ANTES de las llaves. Le dice a CSS QUÉ elemento estilizar. 
+        Ejemplo: <code>header</code>, <code>.boton</code>, <code>#inicio</code></div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 23: JUEGO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🎮</span>Juego: ¿Qué CSS cambió?</h2>
+    
+    <p style="margin-bottom: 30px; color: #facc15; font-weight: bold;">Voy a mostrar la página SIN UNA LÍNEA de CSS. ¿Adivinas cuál falta?</p>
+
+    <div class="explicacion" style="margin-bottom: 20px;">
+        <strong style="color: #facc15;">Ejemplo 1:</strong><br>
+        Remití: <code>background-color: #0f172a;</code> del header<br>
+        Resultado: Header sin color azul (ve blanco)<br>
+        Pregunta: "¿Qué CSS remití?"
+    </div>
+
+    <div class="explicacion" style="margin-bottom: 20px;">
+        <strong style="color: #facc15;">Ejemplo 2:</strong><br>
+        Remití: <code>grid-template-columns: repeat(3, 1fr);</code><br>
+        Resultado: Tarjetas en 1 columna vertical<br>
+        Pregunta: "¿Qué CSS remití?"
+    </div>
+
+    <div class="explicacion">
+        <strong style="color: #facc15;">Ejemplo 3:</strong><br>
+        Remití: <code>position: sticky;</code><br>
+        Resultado: Menú se desaparece al bajar<br>
+        Pregunta: "¿Qué CSS remití?"
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 24: RETO PERSONAL - CORREGIDO -->
+<div class="diapositiva">
+    <h2><span class="emoji">🚀</span>Reto: Personaliza 3 cosas</h2>
+    
+    <p style="color: #facc15; font-weight: bold; margin-bottom: 30px;">
+        Ahora EXPERIMENTAREMOS. Cambiaremos 3 cosas del CSS.
+    </p>
+
+    <div class="contenido-retos">
+        <div class="reto">
+            <h3>RETO 1: Cambia el color del header</h3>
+            <p>Busca: <code>header { background-color: #0f172a; }</code></p>
+            <p>Prueba con: #1e40af, #7c3aed, #0ea5e9, #14b8a6</p>
+            <p style="color: #14b8a6;">Guarda, recarga (F5), ¿te gusta el color?</p>
+        </div>
+
+        <div class="reto">
+            <h3>RETO 2: Cambia el padding del header</h3>
+            <p>Busca: <code>header { ... padding: 70px 0; }</code></p>
+            <p>Prueba con: 30px (pequeño), 100px (grande), 50px (medio)</p>
+            <p style="color: #14b8a6;">¿Cómo cambia el espacio?</p>
+        </div>
+
+        <div class="reto">
+            <h3>RETO 3: Cambia número de columnas</h3>
+            <p>Busca: <code>.tarjetas { grid-template-columns: repeat(3, 1fr); }</code></p>
+            <p>Prueba con: 2 (2 tarjetas), 4 (4 tarjetas pequeñas)</p>
+            <p style="color: #14b8a6;">¡Las tarjetas se reorganizan!</p>
+        </div>
+    </div>
+
+    <p style="margin-top: 30px; text-align: center; color: #facc15; font-weight: bold;">
+        📸 Toma captura con tus cambios | 📤 Envía en Classroom
+    </p>
+</div>
+
+<!-- DIAPOSITIVA 25: RESUMEN -->
+<div class="diapositiva">
+    <h2><span class="emoji">📚</span>Lo que aprendimos hoy</h2>
+    
+    <ul style="font-size: 1.2rem;">
+        <li><strong style="color: #f97316;">✅ CSS es lo que hace HERMOSA una página</strong>
+            <br><span style="color: #cbd5e1;">HTML = esqueleto, CSS = piel</span></li>
+
+        <li><strong style="color: #f97316;">✅ Construimos CSS paso a paso</strong>
+            <br><span style="color: #cbd5e1;">Colores → Espaciado → Layout → Cajas → Botones</span></li>
+
+        <li><strong style="color: #f97316;">✅ Cada propiedad tiene propósito</strong>
+            <br><span style="color: #cbd5e1;">background-color, padding, display, border-radius, box-shadow, :hover</span></li>
+
+        <li><strong style="color: #f97316;">✅ Selectores eligen elementos</strong>
+            <br><span style="color: #cbd5e1;">elemento, .clase, #id</span></li>
+
+        <li><strong style="color: #f97316;">✅ Responsive = funciona en todos lados</strong>
+            <br><span style="color: #cbd5e1;">@media queries adaptan el diseño a celular/tablet/escritorio</span></li>
+    </ul>
+
+    <div class="idea-fundacional" style="margin-top: 40px;">
+        <p>"La belleza sin estructura es caos. La estructura sin belleza es fría. CSS une ambas."</p>
+        <div class="referencia">Proverbios 25:11</div>
+    </div>
+</div>
+
+<!-- DIAPOSITIVA 26: TAREA -->
+<div class="diapositiva">
+    <h2><span class="emoji">📚</span>Práctica entre clases</h2>
+    
+    <div class="reto">
+        <h3>1️⃣ Personaliza 3 cambios CSS</h3>
+        <p>Ya hiciste uno en clase. Ahora hazlo en casa con 3 cambios diferentes.</p>
+    </div>
+
+    <div class="reto">
+        <h3>2️⃣ Crea una SEGUNDA página HTML</h3>
+        <p>blog.html o galeria.html. Usa la MISMA estructura y CSS.</p>
+        <p>Enlázala desde index.html para navegar.</p>
+    </div>
+
+    <div class="reto">
+        <h3>3️⃣ Experimenta con CSS</h3>
+        <p>Prueba colores, padding, border-radius. ¡No hay respuesta correcta!</p>
+        <p>Aprende jugando.</p>
+    </div>
+
+    <div class="reto">
+        <h3>4️⃣ Aprende de otros sitios</h3>
+        <p>Abre cualquier sitio web. Presiona F12. Ve el CSS real.</p>
+        <p>Piensa: "¿Por qué lo hicieron así?"</p>
+    </div>
+
+    <p style="margin-top: 30px; text-align: center; color: #f97316; font-weight: bold; font-size: 1.2rem;">
+        📤 Entrega: Archivos + Captura ANTES/DESPUÉS
+    </p>
+</div>
+
+<!-- DIAPOSITIVA 27: MOTIVACIÓN FINAL -->
+<div class="diapositiva">
+    <h2><span class="emoji">🎉</span>¡Lo que LOGRASTE HOY!</h2>
+    
+    <ul style="font-size: 1.3rem; line-height: 2;">
+        <li>🎨 Escribiste CSS desde cero</li>
+        <li>🎨 Transformaste una página fea en hermosa</li>
+        <li>🎨 Entiendes POR QUÉ cada línea existe</li>
+        <li>🎨 Puedes leer CSS de otros sitios</li>
+        <li>🎨 Sabes hacer páginas responsivas</li>
+    </ul>
+
+    <div class="idea-fundacional" style="margin: 40px 0;">
+        <p>ESTÁS A 3 PASOS DE SER DESARROLLADOR WEB:</p>
+        <p style="font-size: 1.2rem; margin-top: 15px;">
+            1️⃣ HTML ✅ | 2️⃣ CSS ✅ | 3️⃣ JavaScript 🔜
+        </p>
+    </div>
+
+    <p style="font-size: 1.2rem; color: #14b8a6; text-align: center;">
+        Con HTML + CSS + JavaScript puedes crear:<br>
+        Portafolios • Blogs • Tiendas • Redes Sociales • CUALQUIER SITIO
+    </p>
+
+    <p style="margin-top: 40px; text-align: center; color: #facc15; font-size: 1.1rem;">
+        ¿Preguntas? ¿Dudas? ¿Algo no quedó claro?<br>
+        <strong>HABLEN AHORA</strong>
+    </p>
+</div>
+
+<!-- NAVEGACIÓN -->
+<div class="contador">
+    <span id="num-diapositiva">1</span> / <span id="total-diapositivas">27</span>
+</div>
+
+<div class="navegacion">
+    <button id="anterior" onclick="cambiarDiapositiva(-1)">← Anterior</button>
+    <button id="siguiente" onclick="cambiarDiapositiva(1)">Siguiente →</button>
+</div>
+
+<script>
+    let diapositivaActual = 0;
+    const diapositivas = document.querySelectorAll('.diapositiva');
+    const totalDiapositivas = diapositivas.length;
+
+    document.getElementById('total-diapositivas').textContent = totalDiapositivas;
+
+    function mostrarDiapositiva(n) {
+        diapositivas[diapositivaActual].classList.remove('active');
+        diapositivaActual = (n + totalDiapositivas) % totalDiapositivas;
+        diapositivas[diapositivaActual].classList.add('active');
+        
+        document.getElementById('num-diapositiva').textContent = diapositivaActual + 1;
+        document.getElementById('anterior').disabled = diapositivaActual === 0;
+        document.getElementById('siguiente').disabled = diapositivaActual === totalDiapositivas - 1;
+    }
+
+    function cambiarDiapositiva(n) {
+        mostrarDiapositiva(diapositivaActual + n);
+    }
+
+    // Navegación con teclado
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') cambiarDiapositiva(-1);
+        if (e.key === 'ArrowRight') cambiarDiapositiva(1);
+    });
+
+    // Mostrar primera diapositiva
+    mostrarDiapositiva(0);
+</script>
+
+</body>
+</html>
